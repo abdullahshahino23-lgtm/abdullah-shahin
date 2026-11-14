@@ -62,7 +62,6 @@ details{margin-top:1rem}summary{color:var(--gold);cursor:pointer;margin-bottom:.
     <div class="fg"><label>السعر (مثال: 50 ريال)</label><input id="f_price"></div>
     <div class="fg"><label>الحالة</label><select id="f_st"><option value="on">متاح للشراء</option><option value="soon">قريباً (بدون زر شراء)</option></select></div>
     <div class="fg"><label>صورة الغلاف</label><input type="file" id="f_file" accept="image/*"><img id="prev" alt=""><button type="button" class="ib" id="rmc" hidden style="margin-top:.5rem">حذف الغلاف</button></div>
-    <div class="fg"><label>ملف PDF (عينة أو نسخة مجانية، اختياري، حتى 20 ميجا)</label><input type="file" id="f_pdf" accept="application/pdf"><small id="pdfn"></small><br><button type="button" class="ib" id="rmp" hidden style="margin-top:.5rem">حذف الملف</button></div>
     <button class="btn bp full" id="sv">حفظ ونشر</button>
   </form>
 
@@ -81,7 +80,7 @@ details{margin-top:1rem}summary{color:var(--gold);cursor:pointer;margin-bottom:.
 
 <script>
 var $=function(i){return document.getElementById(i)};
-var C={},D=null,SHA=null,editing=null,cover='',pdf='',pend=null,busy=false,tt;
+var C={},D=null,SHA=null,editing=null,cover='',pend=null,busy=false,tt;
 try{C=JSON.parse(localStorage.getItem('gh')||'{}')}catch(e){}
 if(!C.owner&&/\.github\.io$/.test(location.hostname)){C.owner=location.hostname.split('.')[0];C.repo=location.pathname.split('/')[1]||location.hostname}
 function esc(t){var d=document.createElement('div');d.textContent=t==null?'':t;return d.innerHTML.replace(/"/g,'&quot;')}
@@ -113,19 +112,12 @@ function saveJson(msg){
 function list(){$('list').innerHTML=D.works.map(function(w){return '<div class="row"><div>'+(w.cover?'<img src="'+esc(w.cover)+'" alt="">':'')+'<span>'+esc(w.title)+'</span></div><div><button class="ib" data-e="'+w.id+'">تعديل</button><button class="ib" data-d="'+w.id+'">حذف</button></div></div>'}).join('')||'<small>لا توجد أعمال بعد.</small>'}
 function find(id){return D.works.filter(function(w){return w.id===id})[0]}
 function setCover(u,pv){cover=u||'';$('prev').style.display=u?'block':'none';if(u)$('prev').src=pv||u;$('rmc').hidden=!u}
-function setPdf(p){pdf=p||'';$('pdfn').textContent=p?'تم إرفاق: '+p.split('/').pop():'';$('rmp').hidden=!p}
 function form(on,w){$('wf').hidden=!on;if(!on)return;editing=w?w.id:null;
- $('f_type').value=w?w.type:'novel';$('f_title').value=w?w.title:'';$('f_desc').value=w?w.desc:'';$('f_ex').value=w?w.excerpt:'';$('f_price').value=w?w.price:'';$('f_st').value=w?w.status:'on';$('f_file').value='';$('f_pdf').value='';setCover(w?w.cover:'');setPdf(w?w.pdf:'');$('wf').scrollIntoView({behavior:'smooth'})}
+ $('f_type').value=w?w.type:'novel';$('f_title').value=w?w.title:'';$('f_desc').value=w?w.desc:'';$('f_ex').value=w?w.excerpt:'';$('f_price').value=w?w.price:'';$('f_st').value=w?w.status:'on';$('f_file').value='';setCover(w?w.cover:'');$('wf').scrollIntoView({behavior:'smooth'})}
 $('add').onclick=function(){form(true)};
 $('list').onclick=function(e){var b=e.target.closest('button');if(!b)return;
  if(b.dataset.e){form(true,find(b.dataset.e))}
  else if(b.dataset.d){if(pend===b.dataset.d){D.works=D.works.filter(function(w){return w.id!==pend});pend=null;saveJson('حذف عمل')}else{pend=b.dataset.d;toast('اضغط حذف مرة أخرى للتأكيد')}}};
-$('rmp').onclick=function(){setPdf('')};
-$('f_pdf').onchange=function(){var f=this.files[0];if(!f)return;if(f.size>20*1024*1024){toast('الملف أكبر من 20 ميجا',1);this.value='';return}
- toast('جارٍ رفع الملف...');var fr=new FileReader();
- fr.onload=function(){var p='pdfs/p'+Date.now().toString(36)+'.pdf';
-  api(p,'PUT',{message:'رفع PDF',content:fr.result.split(',')[1],branch:C.branch}).then(function(r){if(!r.ok)throw 0;setPdf(p);toast('تم رفع الملف')}).catch(function(){toast('تعذر رفع الملف',1)})};
- fr.readAsDataURL(f)};
 $('rmc').onclick=function(){setCover('')};
 $('f_file').onchange=function(){var f=this.files[0];if(!f)return;toast('جارٍ تجهيز ورفع الصورة...');
  var img=new Image(),u=URL.createObjectURL(f);
@@ -134,7 +126,7 @@ $('f_file').onchange=function(){var f=this.files[0];if(!f)return;toast('جارٍ
   api(p,'PUT',{message:'رفع غلاف',content:d.split(',')[1],branch:C.branch}).then(function(r){if(!r.ok)throw 0;setCover(p,d);toast('تم رفع الغلاف')}).catch(function(){toast('تعذر رفع الصورة',1)})};
  img.src=u};
 $('wf').onsubmit=function(e){e.preventDefault();
- var w={id:editing||'w'+Date.now().toString(36),type:$('f_type').value,title:$('f_title').value.trim(),desc:$('f_desc').value.trim(),excerpt:$('f_ex').value.trim(),price:$('f_price').value.trim(),status:$('f_st').value,cover:cover,pdf:pdf};
+ var w={id:editing||'w'+Date.now().toString(36),type:$('f_type').value,title:$('f_title').value.trim(),desc:$('f_desc').value.trim(),excerpt:$('f_ex').value.trim(),price:$('f_price').value.trim(),status:$('f_st').value,cover:cover};
  if(editing){D.works=D.works.map(function(x){return x.id===editing?w:x})}else{D.works.unshift(w)}
  saveJson('تحديث الأعمال').then(function(){form(false)}).catch(function(){})};
 $('sf').onsubmit=function(e){e.preventDefault();

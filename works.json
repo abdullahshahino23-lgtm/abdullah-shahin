@@ -6,15 +6,14 @@
   },
   "works": [
     {
-      "id": "wmwgz1w25",
+      "id": "w1",
       "type": "novel",
-      "title": "فن التواصل مع الذات",
-      "desc": "",
-      "excerpt": "",
-      "price": "٢٠",
+      "title": "عنوان الرواية",
+      "desc": "نبذة قصيرة عن الرواية، عدّلها من لوحة التحكم.",
+      "excerpt": "اكتب هنا مقتطفاً من الرواية.",
+      "price": "50 ريال",
       "status": "on",
-      "cover": "images/cmwgz10q9.jpg",
-      "pdf": "pdfs/pmwgz1p5j.pdf"
+      "cover": ""
     }
   ]
 }
