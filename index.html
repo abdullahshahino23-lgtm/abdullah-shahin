@@ -189,23 +189,25 @@ details{margin-top:1.2rem;border-top:1px solid var(--bd);padding-top:1rem}summar
 <footer><p>جميع الحقوق محفوظة © 2026 — الموقع الرسمي للكاتب عبدالله شاهين</p></footer>
 
 <script>
-var D={settings:{wa:'966563705249',bio:'',quote:''},works:[]},cur='all';
+var D={settings:{wa:'966563705249',bio:'',quote:'',instapay:'abdullah.shahino23@instapay'},works:[]},cur='all';
 var TY={novel:['رواية','scroll'],story:['مجموعة قصصية','book'],article:['مقال أدبي','feather']};
 function $(i){return document.getElementById(i)}
 function esc(t){var d=document.createElement('div');d.textContent=t==null?'':t;return d.innerHTML.replace(/"/g,'&quot;')}
 function ico(n){return '<svg class="i"><use href="#'+n+'"/></svg>'}
 function buy(w){return 'https://wa.me/'+D.settings.wa+'?text='+encodeURIComponent('السلام عليكم، أرغب في شراء: '+w.title+(w.price?' ('+w.price+')':''))}
+function copyTxt(t){if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).catch(function(){})}else{var ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand('copy')}catch(e){}document.body.removeChild(ta)}}
+function payIP(w){var ipa=D.settings.instapay||'abdullah.shahino23@instapay';copyTxt(ipa);window.open('https://wa.me/'+D.settings.wa+'?text='+encodeURIComponent('السلام عليكم، أرغب في الشراء عبر إنستاباي: '+w.title+(w.price?' ('+w.price+')':'')+' — عنوان الدفع: '+ipa),'_blank')}
 function find(id){return D.works.filter(function(w){return w.id===id})[0]}
 function render(){
  $('bio').innerHTML=D.settings.bio.split('\n').filter(Boolean).map(function(p){return '<p>'+esc(p)+'</p>'}).join('');
  $('qt').textContent=D.settings.quote;
  $('grid').innerHTML=D.works.length?D.works.map(function(w){var t=TY[w.type]||TY.novel,soon=w.status==='soon';
-  return '<div class="card" data-c="'+w.type+'"><div>'+(w.cover?'<img class="cov" src="'+esc(w.cover)+'" alt="">':'<div class="ci">'+ico(t[1])+'</div>')+'<span class="tag">'+t[0]+(soon?' • قريباً':'')+'</span><h3>'+esc(w.title)+'</h3><p>'+esc(w.desc)+'</p>'+(w.price?'<div class="price">'+esc(w.price)+'</div>':'')+'</div><div class="acts">'+(w.excerpt?'<button class="btn bo" data-ex="'+w.id+'">'+ico('book')+'مقتطف</button>':'')+(soon?'':'<a class="btn bp" target="_blank" rel="noopener" href="'+buy(w)+'">'+ico('bag')+'اشترِ عبر واتساب</a>')+'</div></div>'}).join(''):'<p class="sd">سيتم إضافة الأعمال قريباً.</p>';
+  return '<div class="card" data-c="'+w.type+'"><div>'+(w.cover?'<img class="cov" src="'+esc(w.cover)+'" alt="">':'<div class="ci">'+ico(t[1])+'</div>')+'<span class="tag">'+t[0]+(soon?' • قريباً':'')+'</span><h3>'+esc(w.title)+'</h3><p>'+esc(w.desc)+'</p>'+(w.price?'<div class="price">'+esc(w.price)+'</div>':'')+'</div><div class="acts">'+(w.excerpt?'<button class="btn bo" data-ex="'+w.id+'">'+ico('book')+'مقتطف</button>':'')+(soon?'':'<button class="btn bo" data-ip="'+w.id+'">'+ico('file')+'ادفع عبر إنستاباي</button><a class="btn bp" target="_blank" rel="noopener" href="'+buy(w)+'">'+ico('bag')+'اشترِ عبر واتساب</a>')+'</div></div>'}).join(''):'<p class="sd">سيتم إضافة الأعمال قريباً.</p>';
  apply()}
 function apply(){document.querySelectorAll('.card').forEach(function(c){c.style.display=(cur==='all'||c.dataset.c===cur)?'flex':'none'})}
 var fb=document.querySelectorAll('.fb');
 fb.forEach(function(b){b.onclick=function(){fb.forEach(function(x){x.classList.remove('active')});b.classList.add('active');cur=b.dataset.f;apply()}});
-$('grid').onclick=function(e){var b=e.target.closest('[data-ex]');if(b){var w=find(b.dataset.ex);ex(w.title,w.excerpt)}};
+$('grid').onclick=function(e){var b=e.target.closest('[data-ex]');if(b){var w=find(b.dataset.ex);ex(w.title,w.excerpt);return}var p=e.target.closest('[data-ip]');if(p){payIP(find(p.dataset.ip))}};
 function ex(t,x){$('mt').textContent=t;$('mb').textContent=x;$('md').style.display='flex'}
 function cl(){$('md').style.display='none'}
 $('md').onclick=function(e){if(e.target===this)cl()};
