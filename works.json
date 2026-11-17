@@ -5,5 +5,17 @@
     "quote": "القلم لا يكتب الحروف فقط، بل يكتب ما عجز اللسان عن قوله.",
     "instapay": "abdullah.shahino23@instapay"
   },
-  "works": []
+  "works": [
+    {
+      "id": "wmwjztvxe",
+      "type": "novel",
+      "title": "رماد النهار الأخير",
+      "desc": "رواية خيال علمي فلسفي",
+      "excerpt": "",
+      "price": "٢٥",
+      "status": "on",
+      "cover": "images/cmwjztgfe.jpg",
+      "pdf": ""
+    }
+  ]
 }
