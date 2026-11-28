@@ -25,7 +25,7 @@
       "excerpt": "",
       "price": "٥٠",
       "status": "on",
-      "cover": "https://api.whacka.app/storage/v1/object/public/app-images/204c8045-411f-4667-8d06-d4cdf2b7a7df/7705f13e-6997-4a38-bebf-e7986ec59432.jpg"
+      "cover": "images/fan-altawasul.jpg"
     },
     {
       "id": "bkrhla001",
@@ -35,7 +35,7 @@
       "excerpt": "",
       "price": "٥٠",
       "status": "on",
-      "cover": "https://api.whacka.app/storage/v1/object/public/app-images/204c8045-411f-4667-8d06-d4cdf2b7a7df/f1631c14-ae91-4dc0-8c39-99dc29f81ad2.jpg"
+      "cover": "images/rehla-wegdaniya.jpg"
     },
     {
       "id": "bkmaase01",
@@ -45,7 +45,7 @@
       "excerpt": "",
       "price": "٥٠",
       "status": "on",
-      "cover": "https://api.whacka.app/storage/v1/object/public/app-images/204c8045-411f-4667-8d06-d4cdf2b7a7df/34267a35-6701-4533-ab96-6d6e71aab153.jpg"
+      "cover": "images/maasiyat-alhirman.jpg"
     }
   ]
 }
